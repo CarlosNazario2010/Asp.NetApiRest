@@ -1,10 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MinhaAPI.Models;
+using MinhaAPI.Repositorios.Interfaces;
 
 /**Controller que faz o login do usuario e gera o token JWT para as proximas requisicoes
  * No caso foi simulado um usuario admin e senha admin, sem pega-lo efetivamente do banco de dados 
@@ -13,19 +13,35 @@ namespace MinhaAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ContaController : ControllerBase
+    public class LoginController : ControllerBase
     {
-        [HttpPost]
-        public IActionResult Login([FromBody] LoginModel login)
+        private readonly ILoginRepositorio _loginRepositorio;
+        public LoginController(ILoginRepositorio loginRepositorio)
         {
-            // Apenas um teste. O correto seria pegar usuario e senha do banco
-            if (login.Login == "admin" && login.Senha == "admin") 
+            _loginRepositorio = loginRepositorio;
+        }
+
+        [HttpPost("/logar")]
+        public async Task<ActionResult<LoginModel>> Login([FromBody] LoginModel login)
+        {
+            LoginModel loginBuscado = await _loginRepositorio.Logar(login);
+
+            if (loginBuscado.Login == login.Login && loginBuscado.Senha == login.Senha)
             {
                 var token = GerarTokenJWT();
                 return Ok(token);
             }
 
-            return BadRequest(new {mensagem = "Credenciais Invalidas. Verifique o nome e senha digitados" });    
+            return BadRequest(new { mensagem = "Credenciais Invalidas. Verifique o nome e senha digitados" });
+        }
+
+        [HttpPost("/cadastrar")]
+        public async Task<ActionResult<LoginModel>> Cadastrar([FromBody] LoginModel login)
+        {
+            await _loginRepositorio.Cadastrar(login);
+
+            var token = GerarTokenJWT();
+            return Ok(token);
         }
 
         private string GerarTokenJWT()

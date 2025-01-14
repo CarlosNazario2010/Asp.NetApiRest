@@ -66,6 +66,7 @@ namespace MinhaAPI
             // Adiciona o escopo para que a implementacao das interfaces sejam reconhecidas
             builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
             builder.Services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
+            builder.Services.AddScoped<ILoginRepositorio, LoginRepositorio>();
 
             // Configuracoes para usar Autenticacao com tokens JWT
             builder.Services.AddAuthentication(options =>

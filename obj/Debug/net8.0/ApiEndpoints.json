@@ -1,21 +1,5 @@
 [
   {
-    "ContainingType": "MinhaAPI.Controllers.ContaController",
-    "Method": "Login",
-    "RelativePath": "api/Conta",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "login",
-        "Type": "MinhaAPI.Models.LoginModel",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "MinhaAPI.Controllers.TarefaController",
     "Method": "BuscarTodosUsuarios",
     "RelativePath": "api/Tarefa",
@@ -264,6 +248,58 @@
     "ReturnTypes": [
       {
         "Type": "MinhaAPI.Models.UsuarioModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MinhaAPI.Controllers.LoginController",
+    "Method": "Cadastrar",
+    "RelativePath": "cadastrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "MinhaAPI.Models.LoginModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MinhaAPI.Models.LoginModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MinhaAPI.Controllers.LoginController",
+    "Method": "Login",
+    "RelativePath": "logar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "MinhaAPI.Models.LoginModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MinhaAPI.Models.LoginModel",
         "MediaTypes": [
           "text/plain",
           "application/json",

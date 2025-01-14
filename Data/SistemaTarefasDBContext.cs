@@ -19,11 +19,13 @@ namespace MinhaAPI.Data
 
         public DbSet<UsuarioModel> Usuarios { get; set; }   
         public DbSet<TarefaModel> Tarefas { get; set; }
+        public DbSet<LoginModel> Login { get; set; }    
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UsuarioMap());
             modelBuilder.ApplyConfiguration(new TarefaMap());
+            modelBuilder.ApplyConfiguration(new LoginMap());
             base.OnModelCreating(modelBuilder);
         }
     }
