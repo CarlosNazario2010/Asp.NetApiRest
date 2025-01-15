@@ -30,7 +30,7 @@ Para iniciar a aplicação:
 
 1. **Abra o terminal:** Navegue até o diretório raiz do projeto.
 2. **Execute o comando:** `dotnet run`
-3. **Ou rode em alguma IDE:** Ex Visual Studio**
+3. **Ou rode em alguma IDE:** Ex Visual Studio
 
 ## Documentação da API
 
