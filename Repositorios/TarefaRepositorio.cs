@@ -21,24 +21,12 @@ namespace MinhaAPI.Repositorios
         public async Task<TarefaModel> BuscarPorId(int id)
         {
             TarefaModel tarefa = await _dbContext.Tarefas.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (tarefa == null)
-            {
-                throw new Exception($"Tarefa para o ID: {id} nao foi encontrada");
-            }
-
             return tarefa;
         }
 
         public async Task<List<TarefaModel>> BuscarTodasTarefas()
         {
             List<TarefaModel> tarefas = await _dbContext.Tarefas.ToListAsync();
-
-            if (tarefas == null)
-            {
-                throw new Exception("Lista de Tarefas esta vazia");
-            }
-
             return tarefas;
         }
 
@@ -52,11 +40,6 @@ namespace MinhaAPI.Repositorios
         public async Task<TarefaModel> Atualizar(TarefaModel tarefa, int id)
         {
             TarefaModel tarefaPorId = await BuscarPorId(id);
-            
-            if (tarefaPorId == null)
-            {
-                throw new Exception($"Tarefa para o ID: {id} nao foi encontrada");
-            }
             
             tarefaPorId.Nome = tarefa.Nome;
             tarefaPorId.Descricao = tarefa.Descricao;
@@ -72,10 +55,6 @@ namespace MinhaAPI.Repositorios
         public async Task<bool> Apagar(int id)
         {
             TarefaModel tarefaPorId = await BuscarPorId(id);
-            if (tarefaPorId == null)
-            {
-                throw new Exception($"Usuario para o ID: {id} nao foi encontrado");
-            }
             _dbContext.Tarefas.Remove(tarefaPorId);   
             await _dbContext.SaveChangesAsync();
             return true;

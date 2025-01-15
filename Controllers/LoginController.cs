@@ -6,8 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using MinhaAPI.Models;
 using MinhaAPI.Repositorios.Interfaces;
 
-/**Controller que faz o login do usuario e gera o token JWT para as proximas requisicoes
- * No caso foi simulado um usuario admin e senha admin, sem pega-lo efetivamente do banco de dados 
+/**Controller que faz o cadastramento e o login do usuario e gera o token JWT 
+ * para ser usado nas proximas requisicoes
  */
 namespace MinhaAPI.Controllers
 {
@@ -28,7 +28,7 @@ namespace MinhaAPI.Controllers
 
             if (loginBuscado.Login == login.Login && loginBuscado.Senha == login.Senha)
             {
-                var token = GerarTokenJWT();
+                var token = GerarTokenJWT(login);
                 return Ok(token);
             }
 
@@ -38,13 +38,18 @@ namespace MinhaAPI.Controllers
         [HttpPost("/cadastrar")]
         public async Task<ActionResult<LoginModel>> Cadastrar([FromBody] LoginModel login)
         {
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest(new { message = "Dados para o cadastramento do usuario invalidos." });
+            }
+
             await _loginRepositorio.Cadastrar(login);
 
-            var token = GerarTokenJWT();
+            var token = GerarTokenJWT(login);
             return Ok(token);
         }
 
-        private string GerarTokenJWT()
+        private string GerarTokenJWT(LoginModel login)
         {
             // Chave do Program.cs
             string chaveSecreta = "8bcb07d5-489e-47e0-ad88-c5988d6428f9";
@@ -52,11 +57,14 @@ namespace MinhaAPI.Controllers
             var chave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(chaveSecreta));
             var credencial = new SigningCredentials(chave, SecurityAlgorithms.HmacSha256);
 
-            //Dados que iram dentro do payload do token. Apenas teste sem pegar dados do banco
+            string loginParaClaim = login.Login;
+            string senhaParaClaim = login.Senha;
+
+            //Dados que iram dentro do payload do token. 
             var claims = new[]
             {
-                new Claim("login", "admmin"),
-                new Claim("nome", "Administrador do Sistema")
+                new Claim("login", loginParaClaim),
+                new Claim("nome", senhaParaClaim)
             };
 
             // Issuer e Audience tambem do Program.cs

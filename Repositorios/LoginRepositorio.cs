@@ -23,12 +23,8 @@ namespace MinhaAPI.Repositorios
 
         public async Task<LoginModel> Logar(LoginModel login)
         {
-            LoginModel? loginBuscado = await _dbContext.Login.FirstOrDefaultAsync(x => x.Senha == login.Senha);
-
-            if (loginBuscado == null)
-            {
-                throw new Exception($"Usuario nao cadastrado ou invalido");
-            }
+            LoginModel? loginBuscado = await _dbContext.Login
+                .FirstOrDefaultAsync(x => x.Login == login.Login && x.Senha == login.Senha);
             return loginBuscado;
         }
     }
